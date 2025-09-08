@@ -3,11 +3,15 @@ package com.prodonik.chesstwin.controller;
 import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
+import com.prodonik.chesstwin.dto.UserLoginRequest;
 import com.prodonik.chesstwin.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -34,4 +38,10 @@ public class UserController {
         String userID = (String) request.getAttribute("userId");
         return userService.getMe(userID);
     }
+
+    @PostMapping("/login")
+    public AuthResponse loginUser(@RequestBody UserLoginRequest request) {
+        return userService.loginUser(request);
+    }
+    
 }
