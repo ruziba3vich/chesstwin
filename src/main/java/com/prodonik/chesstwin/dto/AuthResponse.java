@@ -1,10 +1,10 @@
 package com.prodonik.chesstwin.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@Builder
+@AllArgsConstructor
 public class AuthResponse {
     private String accessToken;
     private String refreshToken;
