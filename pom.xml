@@ -28,11 +28,13 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<lombok.version>1.18.38</lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
+			<version>11.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>
@@ -55,10 +57,12 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
+			<version>42.7.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -78,6 +82,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -148,8 +153,8 @@
 				<version>11.12.0</version>
 				<configuration>
 					<url>jdbc:postgresql://89.117.58.248:5432/chess_twin_db</url>
-					<user>your_db_user</user>
-					<password>your_db_password</password>
+					<user>chess_twin_user</user>
+					<password>chess_twin_pwd</password>
 					<schemas>
 						<schema>public</schema>
 					</schemas>
@@ -163,12 +168,13 @@
 						<artifactId>postgresql</artifactId>
 						<version>42.7.4</version>
 					</dependency>
+					<dependency>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-database-postgresql</artifactId>
+						<version>11.12.0</version>
+					</dependency>
 				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-	</repositories>
-	<pluginRepositories>
-	</pluginRepositories>
 </project>
