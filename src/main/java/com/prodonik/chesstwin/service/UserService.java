@@ -2,6 +2,7 @@ package com.prodonik.chesstwin.service;
 
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
+import com.prodonik.chesstwin.exception.UserNotFoundException;
 import com.prodonik.chesstwin.exception.UsernameAlreadyExistsException;
 import com.prodonik.chesstwin.helper.TimeUUIDGenerator;
 
@@ -58,7 +59,7 @@ public class UserService {
                 .fetchOne();
 
         if (record == null) {
-            return null;
+            throw new UserNotFoundException(username);
         }
 
         return UserDto.builder()
