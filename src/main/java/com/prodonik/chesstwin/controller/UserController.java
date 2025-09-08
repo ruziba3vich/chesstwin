@@ -18,4 +18,23 @@ public class UserController {
     public UserDto createUser(@RequestBody UserCreateRequest request) {
         return userService.createUser(request);
     }
+
+    @GetMapping("/{username}")
+    public UserDto getUserByUsername(@PathVariable String username) {
+        var record = userService.getUserByUsername(username);
+
+        if (record == null) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+
+        return UserDto.builder()
+                .id(record.getId())
+                .fullname(record.getFullname())
+                .username(record.getUsername())
+                .avgOpeningElo(record.getAvgOpeningElo())
+                .avgMidgameElo(record.getAvgMidgameElo())
+                .avgEndgameElo(record.getAvgEndgameElo())
+                .gamesCount(record.getGamesCount())
+                .build();
+    }
 }
