@@ -43,4 +43,24 @@ public class UserService {
                                 .build();
         return dto;
     }
+
+    public UserDto getUserByUsername(String username) {
+        var record = dsl.selectFrom(USER)
+                .where(USER.USERNAME.eq(username))
+                .fetchOne();
+
+        if (record == null) {
+            return null;
+        }
+
+        return UserDto.builder()
+                .id(record.getId())
+                .fullname(record.getFullname())
+                .username(record.getUsername())
+                .avgOpeningElo(record.getAvgOpeningElo())
+                .avgMidgameElo(record.getAvgMidgameElo())
+                .avgEndgameElo(record.getAvgEndgameElo())
+                .gamesCount(record.getGamesCount())
+                .build();
+    }
 }
