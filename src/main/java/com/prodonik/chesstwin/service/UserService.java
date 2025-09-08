@@ -28,10 +28,15 @@ public class UserService {
             .set(USER.USERNAME, request.getUsername())
             .execute();
 
-        UserDto dto = new UserDto();
-        dto.setId(id);
-        dto.setFullname(request.getFullname());
-        dto.setUsername(request.getUsername());
+        UserDto dto = UserDto.builder()
+                                .id(id)
+                                .fullname(request.getFullname())
+                                .username(request.getUsername())
+                                .avgOpeningElo(request.getAvgOpeningElo())
+                                .avgMidgameElo(request.getAvgMidgameElo())
+                                .avgEndgameElo(request.getAvgEndgameElo())
+                                .gamesCount(request.getGamesCount())
+                                .build();
         return dto;
     }
 }
