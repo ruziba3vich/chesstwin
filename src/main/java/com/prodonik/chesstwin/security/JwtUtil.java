@@ -7,9 +7,6 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class JwtUtil {
     // TODO: MOVE PRIVATE VALUES INTO CONFIG!
     private static final String SECRET = "super_secret_long_key_for_jwt_chesstwin_2025_123";
