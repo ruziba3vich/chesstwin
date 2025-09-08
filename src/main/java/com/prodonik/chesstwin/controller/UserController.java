@@ -1,5 +1,6 @@
 package com.prodonik.chesstwin.controller;
 
+import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
 import com.prodonik.chesstwin.service.UserService;
@@ -15,7 +16,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@RequestBody UserCreateRequest request) {
+    public AuthResponse createUser(@RequestBody UserCreateRequest request) {
         return userService.createUser(request);
     }
 
