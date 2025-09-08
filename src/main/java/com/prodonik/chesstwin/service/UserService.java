@@ -3,6 +3,7 @@ package com.prodonik.chesstwin.service;
 import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
+import com.prodonik.chesstwin.dto.UserLoginRequest;
 import com.prodonik.chesstwin.exception.InvalidUserIDException;
 import com.prodonik.chesstwin.exception.UserNotFoundException;
 import com.prodonik.chesstwin.exception.UserUnAuthorizedException;
@@ -58,6 +59,21 @@ public class UserService {
 
         String accessToken = JwtUtil.generateAccessToken(id.toString(), request.getUsername());
         String refreshToken = JwtUtil.generateRefreshToken(id.toString(), request.getUsername());
+
+        return new AuthResponse(accessToken, refreshToken);
+    }
+
+    public AuthResponse loginUser(UserLoginRequest request) {
+        var record = dsl.selectFrom(USER)
+            .where(USER.USERNAME.eq(request.getUsername()))
+            .fetchOne();
+        
+        if (record == null) {
+            throw new UserNotFoundException(request.getUsername());
+        }
+
+        String accessToken = JwtUtil.generateAccessToken(record.getId().toString(), request.getUsername());
+        String refreshToken = JwtUtil.generateRefreshToken(record.getId().toString(), request.getUsername());
 
         return new AuthResponse(accessToken, refreshToken);
     }
