@@ -21,12 +21,6 @@ public class UserController {
 
     @GetMapping("/{username}")
     public UserDto getUserByUsername(@PathVariable String username) {
-        UserDto record = userService.getUserByUsername(username);
-
-        if (record == null) {
-            throw new RuntimeException("User not found with username: " + username);
-        }
-
-        return record;
+        return userService.getUserByUsername(username);
     }
 }
