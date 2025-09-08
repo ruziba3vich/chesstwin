@@ -26,6 +26,10 @@ public class UserService {
             .set(USER.ID, id)
             .set(USER.FULLNAME, request.getFullname())
             .set(USER.USERNAME, request.getUsername())
+            .set(USER.AVG_OPENING_ELO, request.getAvgOpeningElo())
+            .set(USER.AVG_MIDGAME_ELO, request.getAvgMidgameElo())
+            .set(USER.AVG_ENDGAME_ELO, request.getGamesCount())
+            .set(USER.GAMES_COUNT, request.getAvgMidgameElo())
             .execute();
 
         UserDto dto = UserDto.builder()
