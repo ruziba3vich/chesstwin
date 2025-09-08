@@ -1,10 +1,12 @@
 package com.prodonik.chesstwin.service;
 
+import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
 import com.prodonik.chesstwin.exception.UserNotFoundException;
 import com.prodonik.chesstwin.exception.UsernameAlreadyExistsException;
 import com.prodonik.chesstwin.helper.TimeUUIDGenerator;
+import com.prodonik.chesstwin.security.JwtUtil;
 
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class UserService {
         this.dsl = dsl;
     }
 
-    public UserDto createUser(UserCreateRequest request) {
+    public AuthResponse createUser(UserCreateRequest request) {
         boolean exists = dsl.fetchExists(
             dsl.selectFrom(USER).where(USER.USERNAME.eq(request.getUsername()))
         );
@@ -41,16 +43,21 @@ public class UserService {
             .set(USER.GAMES_COUNT, request.getGamesCount())
             .execute();
 
-        UserDto dto = UserDto.builder()
-                                .id(id)
-                                .fullname(request.getFullname())
-                                .username(request.getUsername())
-                                .avgOpeningElo(request.getAvgOpeningElo())
-                                .avgMidgameElo(request.getAvgMidgameElo())
-                                .avgEndgameElo(request.getAvgEndgameElo())
-                                .gamesCount(request.getGamesCount())
-                                .build();
-        return dto;
+        // UserDto dto = UserDto.builder()
+        //                         .id(id)
+        //                         .fullname(request.getFullname())
+        //                         .username(request.getUsername())
+        //                         .avgOpeningElo(request.getAvgOpeningElo())
+        //                         .avgMidgameElo(request.getAvgMidgameElo())
+        //                         .avgEndgameElo(request.getAvgEndgameElo())
+        //                         .gamesCount(request.getGamesCount())
+        //                         .build();
+        // return dto;
+
+        String accessToken = JwtUtil.generateAccessToken(id.toString(), request.getUsername());
+        String refreshToken = JwtUtil.generateRefreshToken(id.toString(), request.getUsername());
+
+        return new AuthResponse(accessToken, refreshToken);
     }
 
     public UserDto getUserByUsername(String username) {
