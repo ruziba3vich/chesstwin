@@ -3,8 +3,10 @@ package com.prodonik.chesstwin.controller;
 import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
-import com.prodonik.chesstwin.exception.UserUnAuthorizedException;
 import com.prodonik.chesstwin.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,12 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserDto getMe(@RequestHeader("Authorization") String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new UserUnAuthorizedException();
-        }
-
-        String token = authHeader.substring(7);
-        return userService.getMe(token);
+    public UserDto getMe(HttpServletRequest request) {
+        String userID = (String) request.getAttribute("userId");
+        return userService.getMe(userID);
     }
 }
