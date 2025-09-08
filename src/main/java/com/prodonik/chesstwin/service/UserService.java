@@ -3,7 +3,9 @@ package com.prodonik.chesstwin.service;
 import com.prodonik.chesstwin.dto.AuthResponse;
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
+import com.prodonik.chesstwin.exception.InvalidUserIDException;
 import com.prodonik.chesstwin.exception.UserNotFoundException;
+import com.prodonik.chesstwin.exception.UserUnAuthorizedException;
 import com.prodonik.chesstwin.exception.UsernameAlreadyExistsException;
 import com.prodonik.chesstwin.helper.TimeUUIDGenerator;
 import com.prodonik.chesstwin.security.JwtUtil;
@@ -67,6 +69,30 @@ public class UserService {
 
         if (record == null) {
             throw new UserNotFoundException(username);
+        }
+
+        return UserDto.builder()
+                .id(record.getId())
+                .fullname(record.getFullname())
+                .username(record.getUsername())
+                .avgOpeningElo(record.getAvgOpeningElo())
+                .avgMidgameElo(record.getAvgMidgameElo())
+                .avgEndgameElo(record.getAvgEndgameElo())
+                .gamesCount(record.getGamesCount())
+                .build();
+    }
+
+    public UserDto getMe(String token) {
+        String strID = JwtUtil.getUserId(token);
+        if (strID.length() == 0) {
+            throw new UserUnAuthorizedException();
+        }
+        UUID id = UUID.fromString(strID);
+        var record = dsl.selectFrom(USER)
+                        .where(USER.ID.eq(id))
+                        .fetchOne();
+        if (record == null) {
+            throw new InvalidUserIDException();
         }
 
         return UserDto.builder()
