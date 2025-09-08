@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/me")
     public UserDto getMe(HttpServletRequest request) {
         String userID = (String) request.getAttribute("userId");
-        return userService.getMe(userID);
+        return userService.getUserByUsername(userID);
     }
 
     @PostMapping("/login")
