@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://89.117.58.248:5432/chess_twin_db
+    username: chess_twin_user
+    password: chess_twin_pwd
+  jooq:
+    sql-dialect: POSTGRES
+  
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
