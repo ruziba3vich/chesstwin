@@ -2,6 +2,7 @@ package com.prodonik.chesstwin.service;
 
 import com.prodonik.chesstwin.dto.UserCreateRequest;
 import com.prodonik.chesstwin.dto.UserDto;
+import com.prodonik.chesstwin.exception.UsernameAlreadyExistsException;
 import com.prodonik.chesstwin.helper.TimeUUIDGenerator;
 
 import org.jooq.DSLContext;
@@ -20,6 +21,13 @@ public class UserService {
     }
 
     public UserDto createUser(UserCreateRequest request) {
+        boolean exists = dsl.fetchExists(
+            dsl.selectFrom(USER).where(USER.USERNAME.eq(request.getUsername()))
+        );
+        if (exists) {
+            throw new UsernameAlreadyExistsException(request.getUsername());
+        }
+
         UUID id = TimeUUIDGenerator.generateTimeUUID();
 
         dsl.insertInto(USER)
