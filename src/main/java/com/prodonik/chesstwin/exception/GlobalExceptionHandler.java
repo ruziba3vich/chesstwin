@@ -25,7 +25,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserUnAuthorizedException.class)
-    public ResponseEntity<Map<String, String>> handleUserUnAuthorized(UsernameAlreadyExistsException ex) {
+    public ResponseEntity<Map<String, String>> handleUserUnAuthorized(UserUnAuthorizedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidUserIDException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidUserID(InvalidUserIDException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", ex.getMessage()));
