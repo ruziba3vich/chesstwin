@@ -1,10 +1,10 @@
 package com.prodonik.chesstwin.helper;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class TimeUUIDGenerator {
-
-    public static String generateTimeUUID() {
+    public static UUID generateTimeUUID() {
         LocalDateTime now = LocalDateTime.now();
         String timeComponent = String.format("%04d%02d%02d%02d%02d%02d%09d",
                 now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
@@ -19,11 +19,13 @@ public class TimeUUIDGenerator {
             timeComponent += "0";
         }
 
-        return String.format("%s-%s-%s-%s-%s",
+        String uuidString = String.format("%s-%s-%s-%s-%s",
                 timeComponent.substring(0, 8),
                 timeComponent.substring(8, 12),
                 timeComponent.substring(12, 16),
                 timeComponent.substring(16, 20),
                 timeComponent.substring(20, 32));
+
+        return UUID.fromString(uuidString);
     }
 }
