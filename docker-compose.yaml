@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://89.117.58.248:5432/chess_twin_db
+      SPRING_DATASOURCE_USERNAME: chess_twin_user
+      SPRING_DATASOURCE_PASSWORD: chess_twin_pwd
+      SPRING_PROFILES_ACTIVE: docker
